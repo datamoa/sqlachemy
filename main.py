@@ -27,7 +27,7 @@ def index():
         f"/api/v1.0/precipitation<br />"
         f"/api/v1.0/stations<br />"
         f"/api/v1.0/tobs<br />"
-        f"/api/v1.0/&lt;start&gt;<br />"
+        f"/api/v1.0/<br />"
         f"/api/v1.0/&lt;start&gt;/&lt;end&gt;<br />"
     )
 
@@ -74,15 +74,24 @@ def tobs():
          temp_dict.append(temperature)
      return jsonify(temp_dict)
 
-@app.route("/api/v1.0")
-def start_date():
+@app.route("/api/v1.0/<start>")
+def user_input(start):
      session = Session(engine)
      max_temp = [func.max(Measurement.tobs),
            func.min(Measurement.tobs),
            func.avg(Measurement.tobs)]
      stat_data = session.query(*max_temp).\
-         filter(Measurement.date >= '2016-08-23').all()
+         filter(Measurement.date >= start).all()
+     #return jsonify ("Max Temp " + stat_data[0] + "Min Temp " +  stat_data[1] + "AVG Temp" + stat_data[2])
      return jsonify(stat_data)
+    #  statistics = []
+    #  for stat in stat_data:
+    #      day_stat ={}
+    #      day_stat ['Max Temp'] = func.max(Measurement.tobs)
+    #      day_stat ['Min Temp'] = func.min(Measurement.tobs)
+    #      day_stat ['AVG Temp'] = func.avg(Measurement.tobs)
+    #      statistics.append(day_stat)
+    #  return (statistics)
     
 
 
