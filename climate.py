@@ -5,6 +5,7 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
 from datetime import datetime, timedelta
+import re
 from flask import Flask, jsonify
 
 #Database setup
@@ -127,5 +128,3 @@ def range (start, end):
         
 if __name__ == '__main__':
     app.run(debug=True)
-
-           
